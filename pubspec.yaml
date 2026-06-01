@@ -1,0 +1,30 @@
+name: zard_flutter
+description: Reactive forms for Flutter powered by the zard validation library. React-Hook-Form-style ergonomics, granular subscriptions, nested paths, field arrays, async validation, and a headless-first widget layer.
+version: 1.0.0-beta.1
+publish_to: none
+repository: https://github.com/evandersondev/zard_flutter
+homepage: https://github.com/evandersondev/zard_flutter
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  zard:
+    path: ../zard
+
+  # Optional. Only `lib/hooks.dart` imports flutter_hooks; if you don't
+  # use the hooks layer you can omit this dependency in your downstream
+  # pubspec by replacing the package with `dependency_overrides` removal.
+  flutter_hooks: ^0.20.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  assets:
+    - assets/logo.png
