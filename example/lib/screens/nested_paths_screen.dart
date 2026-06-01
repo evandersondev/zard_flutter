@@ -33,20 +33,11 @@ class NestedPathsScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
-              name: 'user.name',
-              child: ZardInput(label: 'Name'),
-            ),
+            const ZardInput(name: 'user.name', label: 'Name'),
             const SizedBox(height: 12),
-            const ZardField<String>(
-              name: 'user.address.street',
-              child: ZardInput(label: 'Street'),
-            ),
+            const ZardInput(name: 'user.address.street', label: 'Street'),
             const SizedBox(height: 12),
-            const ZardField<String>(
-              name: 'user.address.city',
-              child: ZardInput(label: 'City'),
-            ),
+            const ZardInput(name: 'user.address.city', label: 'City'),
             const SizedBox(height: 16),
             ZardButton(
               onPressed: form.handleSubmit((data) async {

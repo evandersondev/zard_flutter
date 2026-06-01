@@ -46,31 +46,27 @@ class RegistrationScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
+            const ZardInput(
               name: 'name',
-              child: ZardInput(label: 'Name', placeholder: 'Ada Lovelace'),
+              label: 'Name',
+              placeholder: 'Ada Lovelace',
             ),
             const SizedBox(height: 12),
-            const ZardField<String>(
-              name: 'email',
-              child: ZardInput(label: 'Email'),
-            ),
+            const ZardInput(name: 'email', label: 'Email'),
             const SizedBox(height: 12),
-            const ZardField<String>(
+            const ZardInput(
               name: 'password',
-              child: ZardInput(label: 'Password', obscureText: true),
+              label: 'Password',
+              obscureText: true,
             ),
             const SizedBox(height: 12),
-            const ZardField<String>(
+            const ZardInput(
               name: 'confirm',
-              child: ZardInput(label: 'Confirm password', obscureText: true),
+              label: 'Confirm password',
+              obscureText: true,
             ),
             const SizedBox(height: 12),
-            const ZardField<bool>(
-              name: 'acceptTerms',
-              defaultValue: false,
-              child: ZardCheckbox(label: 'I accept the terms'),
-            ),
+            const ZardCheckbox(name: 'acceptTerms', label: 'I accept the terms'),
             AnimatedBuilder(
               animation: form,
               builder: (ctx, _) {

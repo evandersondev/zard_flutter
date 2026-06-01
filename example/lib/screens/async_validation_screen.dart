@@ -51,18 +51,16 @@ class AsyncValidationScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ZardField<String>(
+            ZardInput(
               name: 'username',
-              child: ZardInput(
-                label: 'Username',
-                placeholder: 'Try "admin"',
-                loadingBuilder: (_) => const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
+              label: 'Username',
+              placeholder: 'Try "admin"',
+              loadingBuilder: (_) => const Padding(
+                padding: EdgeInsets.all(8),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
             ),

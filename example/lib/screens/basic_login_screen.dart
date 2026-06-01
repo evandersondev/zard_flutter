@@ -57,14 +57,16 @@ class _HookForm extends HookWidget {
           Text('Hook style (useForm)',
               style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 12),
-          const ZardField<String>(
+          const ZardInput(
             name: 'email',
-            child: ZardInput(label: 'Email', placeholder: 'you@example.com'),
+            label: 'Email',
+            placeholder: 'you@example.com',
           ),
           const SizedBox(height: 12),
-          const ZardField<String>(
+          const ZardInput(
             name: 'password',
-            child: ZardInput(label: 'Password', obscureText: true),
+            label: 'Password',
+            obscureText: true,
           ),
           const SizedBox(height: 16),
           ZardButton(
@@ -113,14 +115,16 @@ class _ControllerFormState extends State<_ControllerForm> {
           Text('Controller style',
               style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 12),
-          const ZardField<String>(
+          const ZardInput(
             name: 'email',
-            child: ZardInput(label: 'Email', placeholder: 'you@example.com'),
+            label: 'Email',
+            placeholder: 'you@example.com',
           ),
           const SizedBox(height: 12),
-          const ZardField<String>(
+          const ZardInput(
             name: 'password',
-            child: ZardInput(label: 'Password', obscureText: true),
+            label: 'Password',
+            obscureText: true,
           ),
           const SizedBox(height: 16),
           AnimatedBuilder(

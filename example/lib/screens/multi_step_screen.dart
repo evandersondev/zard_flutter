@@ -28,26 +28,18 @@ class MultiStepScreen extends HookWidget {
     Widget stepBody() {
       switch (step.value) {
         case 0:
-          return const ZardField<String>(
-            name: 'name',
-            child: ZardInput(label: 'Name'),
-          );
+          return const ZardInput(name: 'name', label: 'Name');
         case 1:
-          return const ZardField<String>(
-            name: 'email',
-            child: ZardInput(label: 'Email'),
-          );
+          return const ZardInput(name: 'email', label: 'Email');
         default:
-          return const ZardField<String>(
+          return const ZardSelect<String>(
             name: 'plan',
-            child: ZardSelect<String>(
-              label: 'Plan',
-              options: [
-                ZardSelectOption(value: 'free', label: 'Free'),
-                ZardSelectOption(value: 'pro', label: 'Pro'),
-                ZardSelectOption(value: 'team', label: 'Team'),
-              ],
-            ),
+            label: 'Plan',
+            options: [
+              ZardSelectOption(value: 'free', label: 'Free'),
+              ZardSelectOption(value: 'pro', label: 'Pro'),
+              ZardSelectOption(value: 'team', label: 'Team'),
+            ],
           );
       }
     }

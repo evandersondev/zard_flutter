@@ -89,15 +89,10 @@ class LoginScreen extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const ZardField<String>(
-            name: 'email',
-            child: ZardInput(label: 'Email', placeholder: 'you@example.com'),
-          ),
+          // The Material widgets bind themselves — just pass `name:`.
+          const ZardInput(name: 'email', label: 'Email', placeholder: 'you@example.com'),
           const SizedBox(height: 12),
-          const ZardField<String>(
-            name: 'password',
-            child: ZardInput(label: 'Password', obscureText: true),
-          ),
+          const ZardInput(name: 'password', label: 'Password', obscureText: true),
           const SizedBox(height: 16),
           ZardButton(
             fullWidth: true,
@@ -115,7 +110,13 @@ class LoginScreen extends HookWidget {
 }
 ```
 
-That's the whole loop: **schema → `ZardForm` → `ZardField` + a widget → `handleSubmit`**.
+That's the whole loop: **schema → `ZardForm` → a widget with `name:` → `handleSubmit`**.
+
+> ℹ️ **`ZardField` is optional.** The Material widgets (`ZardInput`, `ZardCheckbox`,
+> `ZardSwitch`, `ZardSelect`, `ZardRadioGroup`) resolve their own field when you give them a
+> `name:` — no wrapper needed. You only reach for `ZardField` to *compose* several widgets
+> around one field, to wire a custom/non-Material widget, or to bind a non-`String` type. See
+> [ZardField — when you actually need it](#zardfield--when-you-actually-need-it).
 
 ---
 
@@ -212,18 +213,41 @@ ZardForm.builder(
 );
 ```
 
-### `ZardField<T>`
+### `ZardField` — when you actually need it
 
-Headless binder. Registers a field at `name` and exposes its controller to the subtree.
+Every Material widget in this package can bind itself directly. **For a single field, skip
+`ZardField` entirely** and just pass `name:`:
 
 ```dart
-// Wrap a widget that knows how to read the field from context (e.g. ZardInput)
-const ZardField<String>(
-  name: 'email',
-  child: ZardInput(label: 'Email'),
-);
+// ✅ The common case — one widget, no wrapper
+const ZardInput(name: 'email', label: 'Email'),
+const ZardCheckbox(name: 'acceptTerms', label: 'I accept the terms'),
+const ZardSelect<String>(name: 'role', options: [...]),
+```
 
-// Or use the builder to wire ANY widget yourself
+`ZardField<T>` is the **headless binder** underneath. It registers a field at `name` and exposes
+its controller to the *whole subtree* via context. Reach for it in three cases:
+
+**1. Compose several widgets around one field** — declare `name` once; the children read it from
+context (this is what `ZardLabel` / `ZardErrorMessage` / `ZardDescription` need):
+
+```dart
+ZardField<String>(
+  name: 'email',
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      ZardLabel('Email'),
+      ZardInput(),         // no name — inherited from ZardField
+      ZardErrorMessage(),  // no name — inherited from ZardField
+    ],
+  ),
+);
+```
+
+**2. Wire a custom / non-Material widget** with `ZardField.builder`:
+
+```dart
 ZardField<double>.builder(
   name: 'volume',
   defaultValue: 50,
@@ -236,7 +260,11 @@ ZardField<double>.builder(
 );
 ```
 
-`ZardField` accepts `name`, `defaultValue`, and `disabled`.
+**3. Bind a non-`String` type** — `ZardInput` is `String`-only; `ZardField<T>` is generic.
+
+> 💡 Need a per-field default? `ZardField` takes `defaultValue:` / `disabled:`. The bare
+> `ZardInput(name:)` form has no `defaultValue` — seed it from the form's `defaultValues:`
+> instead (which is the recommended place for initial values anyway).
 
 ### `ZardFieldController` / `ZardFieldState`
 
@@ -433,7 +461,7 @@ A `useForm` widget re-running `build` is **not** the same as rebuilding the whol
 your field subtrees `const`:
 
 ```dart
-const ZardField<String>(name: 'email', child: ZardInput(label: 'Email')),
+const ZardInput(name: 'email', label: 'Email'),
 ```
 
 When the parent rebuilds, Flutter sees the identical `const` widget and **skips** that subtree.
@@ -538,9 +566,9 @@ final _schema = z.map({
   }),
 });
 
-const ZardField<String>(name: 'user.name',           child: ZardInput(label: 'Name')),
-const ZardField<String>(name: 'user.address.street', child: ZardInput(label: 'Street')),
-const ZardField<String>(name: 'user.address.city',   child: ZardInput(label: 'City')),
+const ZardInput(name: 'user.name',           label: 'Name'),
+const ZardInput(name: 'user.address.street', label: 'Street'),
+const ZardInput(name: 'user.address.city',   label: 'City'),
 ```
 
 ---
@@ -564,10 +592,7 @@ for (var i = 0; i < skills.rows.value.length; i++)
     key: ValueKey(skills.rows.value[i].id),
     children: [
       Expanded(
-        child: ZardField<String>(
-          name: 'skills.$i',
-          child: ZardInput(label: 'Skill #${i + 1}'),
-        ),
+        child: ZardInput(name: 'skills.$i', label: 'Skill #${i + 1}'),
       ),
       IconButton(
         icon: const Icon(Icons.arrow_upward),
@@ -603,15 +628,11 @@ final _schema = z.map({
   'email': z.string().optional(),
 });
 
-const ZardField<bool>(
-  name: 'subscribe',
-  defaultValue: false,
-  child: ZardCheckbox(label: 'Subscribe to newsletter'),
-),
+const ZardCheckbox(name: 'subscribe', label: 'Subscribe to newsletter'),
 ZardWatch<bool>(
   name: 'subscribe',
   builder: (ctx, on) => on == true
-      ? const ZardField<String>(name: 'email', child: ZardInput(label: 'Email'))
+      ? const ZardInput(name: 'email', label: 'Email')
       : const SizedBox.shrink(),
 ),
 ```
@@ -661,36 +682,30 @@ explicit `name:`).
 | `ZardRadioGroup<T>` | `T` | `options: [ZardRadioOption(value:, label:)]`, vertical/horizontal |
 | `ZardButton` | — | `loading`, `fullWidth`, `icon`; pair with `handleSubmit` |
 
-Kitchen-sink example:
+Kitchen-sink example — each binds itself with `name:`, no `ZardField` needed:
 
 ```dart
-const ZardField<String>(name: 'name', child: ZardInput(label: 'Name')),
-ZardField<String>(
+const ZardInput(name: 'name', label: 'Name'),
+const ZardSelect<String>(
   name: 'role',
-  child: ZardSelect<String>(
-    label: 'Role',
-    options: const [
-      ZardSelectOption(value: 'engineer', label: 'Engineer'),
-      ZardSelectOption(value: 'designer', label: 'Designer'),
-    ],
-  ),
+  label: 'Role',
+  options: [
+    ZardSelectOption(value: 'engineer', label: 'Engineer'),
+    ZardSelectOption(value: 'designer', label: 'Designer'),
+  ],
 ),
-const ZardField<bool>(
-  name: 'newsletter',
-  defaultValue: false,
-  child: ZardSwitch(label: 'Subscribe to newsletter'),
-),
-ZardField<String>(
+const ZardSwitch(name: 'newsletter', label: 'Subscribe to newsletter'),
+const ZardRadioGroup<String>(
   name: 'tier',
-  defaultValue: 'free',
-  child: ZardRadioGroup<String>(
-    options: const [
-      ZardRadioOption(value: 'free', label: 'Free'),
-      ZardRadioOption(value: 'pro', label: 'Pro'),
-    ],
-  ),
+  options: [
+    ZardRadioOption(value: 'free', label: 'Free'),
+    ZardRadioOption(value: 'pro', label: 'Pro'),
+  ],
 ),
 ```
+
+> Seed initial values (`role: 'engineer'`, `newsletter: false`, `tier: 'free'`, …) in the
+> form's `defaultValues:`.
 
 ---
 

@@ -42,9 +42,9 @@ class FieldArrayScreen extends HookWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: ZardField<String>(
+                      child: ZardInput(
                         name: 'skills.$i',
-                        child: ZardInput(label: 'Skill #${i + 1}'),
+                        label: 'Skill #${i + 1}',
                       ),
                     ),
                     IconButton(

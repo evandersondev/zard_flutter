@@ -40,15 +40,9 @@ class TransformTypedScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
-              name: 'name',
-              child: ZardInput(label: 'Name'),
-            ),
+            const ZardInput(name: 'name', label: 'Name'),
             const SizedBox(height: 12),
-            const ZardField<String>(
-              name: 'email',
-              child: ZardInput(label: 'Email'),
-            ),
+            const ZardInput(name: 'email', label: 'Email'),
             const SizedBox(height: 16),
             ZardButton(
               onPressed: form.handleSubmit((data) async {

@@ -39,39 +39,30 @@ class DevtoolsShowcaseScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
-              name: 'name',
-              child: ZardInput(label: 'Name'),
-            ),
+            const ZardInput(name: 'name', label: 'Name'),
             const SizedBox(height: 12),
-            const ZardField<String>(
+            const ZardSelect<String>(
               name: 'role',
-              child: ZardSelect<String>(
-                label: 'Role',
-                options: [
-                  ZardSelectOption(value: 'engineer', label: 'Engineer'),
-                  ZardSelectOption(value: 'designer', label: 'Designer'),
-                  ZardSelectOption(value: 'pm', label: 'Product Manager'),
-                ],
-              ),
+              label: 'Role',
+              options: [
+                ZardSelectOption(value: 'engineer', label: 'Engineer'),
+                ZardSelectOption(value: 'designer', label: 'Designer'),
+                ZardSelectOption(value: 'pm', label: 'Product Manager'),
+              ],
             ),
             const SizedBox(height: 12),
-            const ZardField<bool>(
+            const ZardSwitch(
               name: 'newsletter',
-              defaultValue: false,
-              child: ZardSwitch(label: 'Subscribe to newsletter'),
+              label: 'Subscribe to newsletter',
             ),
             const SizedBox(height: 12),
-            const ZardField<String>(
+            const ZardRadioGroup<String>(
               name: 'tier',
-              defaultValue: 'free',
-              child: ZardRadioGroup<String>(
-                options: [
-                  ZardRadioOption(value: 'free', label: 'Free'),
-                  ZardRadioOption(value: 'pro', label: 'Pro'),
-                  ZardRadioOption(value: 'team', label: 'Team'),
-                ],
-              ),
+              options: [
+                ZardRadioOption(value: 'free', label: 'Free'),
+                ZardRadioOption(value: 'pro', label: 'Pro'),
+                ZardRadioOption(value: 'team', label: 'Team'),
+              ],
             ),
             const SizedBox(height: 12),
             ZardField<int>.builder(

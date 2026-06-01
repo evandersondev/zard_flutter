@@ -31,15 +31,9 @@ class WatchFormStateScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
-              name: 'first',
-              child: ZardInput(label: 'First name'),
-            ),
+            const ZardInput(name: 'first', label: 'First name'),
             const SizedBox(height: 12),
-            const ZardField<String>(
-              name: 'last',
-              child: ZardInput(label: 'Last name'),
-            ),
+            const ZardInput(name: 'last', label: 'Last name'),
             const SizedBox(height: 24),
             const _RebuildBadge(
               label: 'ZardWatch<String>(name: "first")',

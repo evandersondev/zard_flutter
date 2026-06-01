@@ -30,20 +30,16 @@ class ConditionalFieldsScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<bool>(
+            const ZardCheckbox(
               name: 'subscribe',
-              defaultValue: false,
-              child: ZardCheckbox(label: 'Subscribe to newsletter'),
+              label: 'Subscribe to newsletter',
             ),
             const SizedBox(height: 12),
             ZardWatch<bool>(
               name: 'subscribe',
               builder: (ctx, on) {
                 if (on != true) return const SizedBox.shrink();
-                return const ZardField<String>(
-                  name: 'email',
-                  child: ZardInput(label: 'Email'),
-                );
+                return const ZardInput(name: 'email', label: 'Email');
               },
             ),
             ZardDevtools(form: form),

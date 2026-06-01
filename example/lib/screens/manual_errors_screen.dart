@@ -28,10 +28,7 @@ class ManualErrorsScreen extends HookWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const ZardField<String>(
-              name: 'email',
-              child: ZardInput(label: 'Email'),
-            ),
+            const ZardInput(name: 'email', label: 'Email'),
             const SizedBox(height: 16),
             Wrap(
               spacing: 8,
