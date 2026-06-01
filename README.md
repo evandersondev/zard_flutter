@@ -36,8 +36,8 @@ Zard already gives you schemas, validation, transforms, and typed output. **Zard
 
 ```yaml
 dependencies:
-  zard: ^latest
-  zard_flutter: ^latest
+  zard: ^1.1.2
+  zard_flutter: ^1.0.0-beta.1
 
   # Optional — only needed if you use the hooks layer (`package:zard_flutter/hooks.dart`).
   flutter_hooks: ^0.20.5

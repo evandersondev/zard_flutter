@@ -26,11 +26,16 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
 
-  zard:
-    path: ../../zard
+  zard: ^1.1.2
   zard_flutter:
     path: ../
   flutter_hooks: ^0.20.5
+
+# Local development overrides so the example runs against the in-repo sources
+# instead of the published packages. Has no effect on the published package.
+dependency_overrides:
+  zard:
+    path: ../../zard
 
 dev_dependencies:
   flutter_test:
